@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>MedMinder | Authentication</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { cinzel: ['"Cinzel"', 'serif'], geologica: ['"Geologica"', 'sans-serif'] } } }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .flatpickr-calendar { font-family: 'Geologica', sans-serif !important; border-radius: 12px !important; box-shadow: 0 20px 50px rgba(15,23,42,0.15) !important; border: 1px solid #e2e8f0 !important; }
+        .flatpickr-months { background: #133d3a !important; border-top-left-radius: 12px; border-top-right-radius: 12px; padding: 10px 0 !important; }
+        .flatpickr-weekdays { background: #133d3a !important; }
+        span.flatpickr-weekday { color: rgba(255,255,255,0.7) !important; font-weight: 800 !important; font-size: 0.7rem !important; }
+        .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange { background: #1a504c !important; border-color: #1a504c !important; font-weight: 800 !important; color: white !important; }
+        .flatpickr-day.today { border-color: #1a504c !important; }
+        .flatpickr-prev-month svg, .flatpickr-next-month svg { fill: white !important; }
+        .flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg { fill: #ccfbf1 !important; }
+        .flatpickr-monthDropdown-months { color: white !important; background: transparent !important; font-weight: 800 !important; padding-left: 0.5rem !important;}
+        .flatpickr-monthDropdown-months option { color: #1a504c !important; background: white !important; font-weight: 800 !important; }
+        .flatpickr-current-month input.cur-year { color: white !important; font-weight: 800 !important; }
+        .flatpickr-current-month .numInputWrapper span.arrowUp:after { border-bottom-color: white !important; }
+        .flatpickr-current-month .numInputWrapper span.arrowDown:after { border-top-color: white !important; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-slate-50 p-4">
+
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden relative">
+        
+        <div class="bg-gradient-to-r from-[#133d3a] to-[#1a504c] p-6 text-center">
+            <img src="logo/medminder_logo.svg" alt="MedMinder Logo" class="h-16 w-auto mx-auto mb-2 drop-shadow-md">
+            <p class="text-teal-100 text-xs font-semibold mt-1 tracking-wider uppercase">Your Personal Health Companion</p>
+        </div>
+
+        <div class="p-8">
+            <!-- LOGIN SECTION -->
+            <div id="login-section" class="block">
+                <h2 class="text-xl font-bold text-slate-800 font-cinzel tracking-wider mb-6 border-b border-slate-100 pb-2">Welcome Back</h2>
+                
+                <form id="login-form" class="space-y-4" novalidate>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider">Email or Contact Number</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user absolute left-3 top-3 text-slate-400 text-sm"></i>
+                            <input type="text" id="login-id" oninput="this.value = this.value.toLowerCase();" class="w-full pl-9 pr-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm" placeholder="Enter Gmail or Phone" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider">Password</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400 text-sm"></i>
+                            <input type="password" id="login-password" class="w-full pl-9 pr-10 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm" placeholder="••••••••" required>
+                            <button type="button" class="toggle-password absolute right-3 top-3 text-slate-400 hover:text-[#1a504c] transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <a href="#" id="forgot-link" class="text-xs font-bold text-[#1a504c] hover:underline">Forgot Credentials?</a>
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#1a504c] text-white font-black py-3 rounded-xl hover:bg-[#133d3a] transition-all shadow-md mt-4 text-sm tracking-wider">
+                        LOGIN
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center text-xs font-bold text-slate-500">
+                    Don't have an account? 
+                    <button id="show-register" class="text-[#1a504c] hover:underline ml-1">Register First</button>
+                </div>
+            </div>
+
+            <!-- REGISTER SECTION -->
+            <div id="register-section" class="hidden">
+                <h2 class="text-xl font-bold text-slate-800 font-cinzel tracking-wider mb-6 border-b border-slate-100 pb-2">Create Account</h2>
+                
+                <form id="register-form" class="space-y-4" novalidate>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Full Name</label>
+                        <input type="text" id="reg-name" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm" required>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Gmail</label>
+                            <input type="email" id="reg-email" oninput="this.value = this.value.toLowerCase();" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm" required>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Contact Number</label>
+                            <input type="tel" id="reg-phone" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm tracking-widest" placeholder="0000000000" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Gender</label>
+                            <div class="relative" id="custom-gender-dropdown">
+                                <input type="hidden" id="reg-gender" value="male">
+                                <button type="button" id="gender-dropdown-btn" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm bg-white shadow-sm flex justify-between items-center transition-all">
+                                    <span id="gender-dropdown-text">Male</span>
+                                    <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-200 pointer-events-none" id="gender-dropdown-icon"></i>
+                                </button>
+                                <div id="gender-dropdown-menu" class="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl flex-col overflow-hidden transition-all duration-200 origin-top transform scale-95 opacity-0 pointer-events-none">
+                                    <button type="button" class="gender-option w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-teal-50 hover:text-[#1a504c] transition-colors border-b border-slate-100" data-val="Male">Male</button>
+                                    <button type="button" class="gender-option w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-teal-50 hover:text-[#1a504c] transition-colors border-b border-slate-100" data-val="Female">Female</button>
+                                    <button type="button" class="gender-option w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-teal-50 hover:text-[#1a504c] transition-colors" data-val="Other">Other</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Date of Birth</label>
+                            <div class="relative">
+                                <input type="text" id="reg-dob" class="w-full pl-3 pr-10 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-[#1a504c] text-sm bg-white" placeholder="DD-MM-YYYY" required>
+                                <i class="fa-regular fa-calendar absolute right-3 top-3 text-slate-400 pointer-events-none"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Password</label>
+                        <div class="relative">
+                            <input type="password" id="reg-password" class="w-full pl-3 pr-10 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm" required>
+                            <button type="button" class="toggle-password absolute right-3 top-2.5 text-slate-400 hover:text-[#1a504c] transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Confirm Password</label>
+                        <div class="relative">
+                            <input type="password" id="reg-confirm" class="w-full pl-3 pr-10 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm" required>
+                            <button type="button" class="toggle-password absolute right-3 top-2.5 text-slate-400 hover:text-[#1a504c] transition-colors">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#1a504c] text-white font-black py-3 rounded-xl hover:bg-[#133d3a] transition-all shadow-md mt-4 text-sm tracking-wider">
+                        REGISTER ACCOUNT
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center text-xs font-bold text-slate-500">
+                    Already have an account? 
+                    <button id="show-login-2" class="text-[#1a504c] hover:underline ml-1">Login Here</button>
+                </div>
+            </div>
+
+            <!-- OTP SECTION -->
+            <div id="otp-section" class="hidden">
+                <h2 class="text-xl font-bold text-slate-800 font-cinzel tracking-wider mb-2 border-b border-slate-100 pb-2">Verify Email</h2>
+                <p class="text-xs text-slate-500 font-bold mb-6">We sent a 6-digit verification code to your email.</p>
+                
+                <form id="otp-form" class="space-y-4" novalidate> 
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wider">Enter OTP Code</label>
+                        <input type="text" id="otp-code" maxlength="6" class="w-full px-3 py-3 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-center text-xl tracking-[0.5em]" placeholder="------" required>
+                    </div>
+
+                    <button type="submit" id="btn-verify-otp" class="w-full bg-[#1a504c] text-white font-black py-3 rounded-xl hover:bg-[#133d3a] transition-all shadow-md mt-4 text-sm tracking-wider">
+                        COMPLETE REGISTRATION
+                    </button>
+                </form>
+                <button id="cancel-otp" class="w-full mt-4 text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors">Cancel & Go Back</button>
+            </div>
+
+            <!-- RECOVERY SECTION -->
+            <div id="recovery-section" class="hidden">
+                <h2 class="text-xl font-bold text-slate-800 font-cinzel tracking-wider mb-6 border-b border-slate-100 pb-2">Account Recovery</h2>
+                
+                <form id="recovery-form" class="space-y-4" novalidate>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">What do you want to recover?</label>
+                        <div class="relative" id="custom-recover-dropdown">
+                            <input type="hidden" id="recover-type" value="password">
+                            
+                            <button type="button" id="recover-dropdown-btn" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm bg-white shadow-sm flex justify-between items-center transition-all">
+                                <span id="recover-dropdown-text">I forgot my Password</span>
+                                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-200 pointer-events-none" id="recover-dropdown-icon"></i>
+                            </button>
+                            
+                            <div id="recover-dropdown-menu" class="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-xl flex-col overflow-hidden transition-all duration-200 origin-top transform scale-95 opacity-0 pointer-events-none">
+                                <button type="button" class="recover-option w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-teal-50 hover:text-[#1a504c] transition-colors border-b border-slate-100" data-val="password">I forgot my Password</button>
+                                <button type="button" class="recover-option w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-teal-50 hover:text-[#1a504c] transition-colors border-b border-slate-100" data-val="email">I forgot my Gmail</button>
+                                <button type="button" class="recover-option w-full text-left px-4 py-2 text-sm font-bold text-slate-700 hover:bg-teal-50 hover:text-[#1a504c] transition-colors" data-val="phone">I forgot my Contact Number</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Enter known Gmail OR Contact Number</label>
+                        <input type="text" id="recover-identifier" oninput="this.value = this.value.toLowerCase();" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm" placeholder="Your email or phone" required>
+                    </div>
+
+                    <div id="password-reset-group" class="hidden space-y-4 p-4 bg-teal-50/50 rounded-lg border border-teal-100 mt-2">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">Enter 6-Digit OTP</label>
+                            <input type="text" id="recover-otp" maxlength="6" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-center tracking-[0.3em] text-lg" placeholder="------">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase tracking-wider">New Password</label>
+                            <div class="relative">
+                                <input type="password" id="recover-password" class="w-full pl-3 pr-10 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-[#1a504c] font-bold text-slate-800 text-sm">
+                                <button type="button" class="toggle-password absolute right-3 top-2.5 text-slate-400 hover:text-[#1a504c] transition-colors">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-send-recovery-otp" class="w-full bg-[#1a504c] text-white font-black py-3 rounded-xl hover:bg-[#133d3a] transition-all shadow-md mt-4 text-sm tracking-wider">
+                        SEND OTP
+                    </button>
+
+                    <button type="submit" id="btn-submit-recovery" class="hidden w-full bg-teal-600 text-white font-black py-3 rounded-xl hover:bg-teal-700 transition-all shadow-md mt-4 text-sm tracking-wider">
+                        RECOVER DETAILS
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center text-xs font-bold text-slate-500">
+                    Remembered your details? 
+                    <button id="show-login-from-recovery" class="text-[#1a504c] hover:underline ml-1">Back to Login</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+            
+    <script src="js/auth.js"></script>
+</body>
+</html>

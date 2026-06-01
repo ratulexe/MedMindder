@@ -1,0 +1,21 @@
+{
+  "name": "MedMinder",
+  "short_name": "MedMinder",
+  "description": "Your Personal Health Companion",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#133d3a",
+  "theme_color": "#133d3a",
+  "icons": [
+    {
+      "src": "logo/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
