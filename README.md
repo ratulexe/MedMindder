@@ -67,7 +67,7 @@ MedMindder/
 │── index.html
 │── auth.html
 │── css/
-│    └── output.css
+│    └── style.css
 │── js/
 │    ├── app.js
 │    └── auth.js
