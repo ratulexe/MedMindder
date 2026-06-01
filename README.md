@@ -62,22 +62,34 @@ You can view or download the complete project report from the link below:<br/><b
 
 <h2>📂 Project Structure</h2>
 
+<hr/>
+
+<h2>📂 Project Structure</h2>
+
 <pre>
-MedMindder/
-│── index.html
-│── auth.html
-│── css/
-│    └── style.css
-│── js/
-│    ├── app.js
-│    └── auth.js
-│── backend/
-│    ├── server.js
-│    ├── routes/
-│    └── controllers/
-│── .gitignore
-│── README.md
+MedMinder/
+│
+├── .firebase/             # Firebase hosting cache
+├── config/                # Database/API configuration files
+├── controllers/           # Backend logic and functions
+├── node_modules/          # Installed npm dependencies
+├── public/                # Frontend files (HTML, CSS, JS)
+├── routes/                # Backend API endpoint definitions
+├── services/              # External service integrations (NLM, GAS)
+│
+├── .env                   # Secret environment variables
+├── .firebaserc            # Firebase project targeting
+├── .gitignore             # Files ignored by GitHub
+├── firebase.json          # Firebase hosting configuration
+├── package-lock.json      # Locked dependency versions
+├── package.json           # Project metadata and dependencies
+├── server.js              # Main Express backend server file
+├── serviceAccountKey.json # Firebase Admin database credentials
+├── tailwind.config.js     # Tailwind CSS styling configuration
+└── uploadMedicines.js     # Script to upload local medicines to Firestore
 </pre>
+
+<hr/>
 
 <hr/>
 
